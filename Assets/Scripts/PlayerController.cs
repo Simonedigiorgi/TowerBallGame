@@ -21,10 +21,12 @@ public class PlayerController : MonoBehaviour {
     [Header("Debug")]
     public bool isUnderworld;
     public bool isActive;
+    public bool isJump;
 
 
     void Start () {
 
+        isJump = true;
         isActive = true;
         rb = GetComponent<Rigidbody>();
         col = GetComponent<SphereCollider>();
@@ -141,11 +143,11 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        // UNDERWORLD
+        // UNDERWORLD AND JUMP
 
         if (isUnderworld == true)
         {
-            if (UnderGrounded() && Input.GetKeyDown(KeyCode.Space))
+            if (UnderGrounded() && Input.GetKeyDown(KeyCode.Space) && isJump == true)
             {
                 rb.AddForce(Vector3.down * jump, ForceMode.Impulse);
             }
@@ -155,7 +157,7 @@ public class PlayerController : MonoBehaviour {
 
         else if (isUnderworld == false)
         {
-            if (IsGrounded() && Input.GetKeyDown(KeyCode.Space))
+            if (IsGrounded() && Input.GetKeyDown(KeyCode.Space) && isJump == true)
             {
                 rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
             }

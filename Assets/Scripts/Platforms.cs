@@ -8,6 +8,10 @@ public class Platforms : MonoBehaviour {
     public GameManager gameManager;                                             // GAMEMANAGER
     public CameraController cameraController;                                   // CAMERA CONTROLLER
 
+    /*private Color color1 = Color.red;
+    private Color color2 = Color.blue;
+    private float duration = 3.0f;*/
+
     public enum PLATFORMS { Underworld, Move }                                  // Underworld = Permette di spostarsi nelle 2 dimensioni, Move = Trasporta il Player
     public PLATFORMS platforms;
 
@@ -21,7 +25,14 @@ public class Platforms : MonoBehaviour {
 
     [Header("Debug")]
     private bool isOnPlatform;                                                  // Il giocatore si trova nel trigger della Piattaforma
+    private bool isActive;
     [HideInInspector] public Quaternion qto = Quaternion.identity;              // Quaternione
+
+    private void Start()
+    {
+        isActive = true;
+        cameraController.GetComponentInChildren<Camera>().clearFlags = CameraClearFlags.SolidColor;
+    }
 
     void Update () {
 
@@ -29,11 +40,11 @@ public class Platforms : MonoBehaviour {
 
         if(platforms == PLATFORMS.Move)
         {
-            if (cameraController.is180 == true)
+            if (cameraController.isRotating180 == true)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targets[0].position, speed * Time.deltaTime);
             }
-            else if(cameraController.is0 == true)
+            else if(cameraController.isRotating0 == true)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targets[1].position, speed * Time.deltaTime);
             }
@@ -43,22 +54,28 @@ public class Platforms : MonoBehaviour {
 
         if (platforms == PLATFORMS.Underworld)
         {
-            if (Input.GetKeyDown(KeyCode.S) && player.isUnderworld == false)
+            if (Input.GetKeyDown(KeyCode.S) && player.isUnderworld == false && isActive)
             {
                 if (isOnPlatform)
                 {
+                    //ChangeColor();
+
                     rotation = 180;
                     qto = Quaternion.Euler(rotation, 0, 0);
                     gameManager.changes++;
+
+                    StartCoroutine(TimeScale());
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.W) && player.isUnderworld == true)
+            else if (Input.GetKeyDown(KeyCode.S) && player.isUnderworld == true && isActive)
             {
                 if (isOnPlatform)
                 {
                     rotation = 0;
                     qto = Quaternion.Euler(rotation, 0, 0);
                     gameManager.changes++;
+
+                    StartCoroutine(TimeScale());
                 }
             }
 
@@ -113,4 +130,22 @@ public class Platforms : MonoBehaviour {
         }
 
     }
+
+    public IEnumerator TimeScale()
+    {
+        isActive = false;
+        player.isJump = false;
+        yield return new WaitForSeconds(0.3f);
+        Time.timeScale = 0.2f;
+        yield return new WaitForSeconds(0.6f);
+        Time.timeScale = 1f;
+        player.isJump = true;
+        isActive = true;
+    }
+
+    /*public void ChangeColor()
+    {
+        var t = Mathf.PingPong(Time.time, duration) / duration;
+        cameraController.GetComponentInChildren<Camera>().backgroundColor = Color.Lerp(color1, color2, t);
+    }*/
 }

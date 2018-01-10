@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour {
         else if (level == Level.Tutorial3)
         {
             currentLevel.text = "";
-            description.text = "Le piattaforme ARANCIONI ti permettono di andare nel sottomondo, quando ci sei sopra premi S per scendere e W per salire";
+            description.text = "Le piattaforme ARANCIONI ti permettono di andare nel sottomondo e viceversa, quando ci sei sopra premi S per usarle";
             StartCoroutine("StartGame");
         }
 

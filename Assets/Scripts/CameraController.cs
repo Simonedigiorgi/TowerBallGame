@@ -4,36 +4,37 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-    private AudioSource source;
-
-    public AudioClip rotateSound;
-
-    public Rotation arrow;                                                   // Richiama lo script Rotation della freccia
-
-    public bool isActive;
+    public PlayerController player;                                         // PLAYER
+    public GameManager gameManager;                                         // GAMEMANAGER
+    public Rotation arrow;                                                  // Richiama lo script Rotation della freccia
 
     public float speed = 300f;                                              // Velocità di rotazione
     public float rotation = 0f;                                             // Angolo della rotazione
-    public float underRotation = 0f;
-    public bool isLateralButtons;
-    public bool isFrontalButtons;
-    public Quaternion qto = Quaternion.identity;
+    public float underRotation = 0f;                                        // Angolo di rotazione del sottosopra
+    public bool isLateralButtons;                                           // Le frecce laterali sono attive 
+    [HideInInspector] public Quaternion qto = Quaternion.identity;          // Quaternione della Camera
 
-    public PlayerController player;
-    public GameManager gameManager;
+    [Header("Audio")]
+    private AudioSource source;
+    public AudioClip rotateSound;                                           // Suono della rotazione della stanza
 
-    [HideInInspector] public bool is0;
-    [HideInInspector] public bool is180;
+    [Header("Debug")]
+    [HideInInspector] public bool isRotating0;                              // La sua rotazione è (0)
+    [HideInInspector] public bool isRotating180;                            // La sua rotazione è (180)
+    [HideInInspector] public bool isActive;                                 // La camera è attiva
 
+    void Start () {
 
-	void Start () {
-
-        isLateralButtons = true;
+        isLateralButtons = true;                                            // Le frecce laterali sono attive
         source = GetComponent<AudioSource>();
+
+        arrow.qto = Quaternion.Euler(45, 0, 0);                             // Inizializza il quaternione della freccia
     }
 	
 	void Update () {     
         
+        // SOPRAMONDO E SOTTOMONDO
+
         if(player.isUnderworld == false)
         {
             underRotation = 0;
@@ -46,23 +47,20 @@ public class CameraController : MonoBehaviour {
             qto = Quaternion.Euler(0, rotation, underRotation);
         }
 
+        // ROTAZIONE DELLA CAMERA
+
         if (Input.GetKeyDown(KeyCode.UpArrow) && isActive == true && rotation != 0)
         {
             source.PlayOneShot(rotateSound);
             gameManager.rotationCount++;                                    // Aggiunge 1 alla conta delle rotazioni
             StartCoroutine(Rotate0());
-
-
-
         }
-
 
         if (Input.GetKeyDown(KeyCode.DownArrow) && isActive == true && rotation != 180)
         {
             source.PlayOneShot(rotateSound);
             gameManager.rotationCount++;                                    // Aggiunge 1 alla conta delle rotazioni
             StartCoroutine(Rotate180());
-
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) && isActive == true && rotation != 90 && isLateralButtons == true)
@@ -78,7 +76,6 @@ public class CameraController : MonoBehaviour {
             source.PlayOneShot(rotateSound);
             gameManager.rotationCount++;                                    // Aggiunge 1 alla conta delle rotazioni
             StartCoroutine(RotateLess90());
-
         }
 
 
@@ -94,7 +91,7 @@ public class CameraController : MonoBehaviour {
         player.rb.angularVelocity = Vector3.zero;
         player.isActive = false;
         player.qto = Quaternion.Euler(0, -90, 0);
-        arrow.qto = Quaternion.Euler(0, 0, -90);
+        arrow.qto = Quaternion.Euler(45, 0, -90);
         isActive = false;
 
         rotation = -90;
@@ -113,7 +110,7 @@ public class CameraController : MonoBehaviour {
         player.isActive = false;
         player.qto = Quaternion.Euler(0, 90, 0);
 
-        arrow.qto = Quaternion.Euler(0, 0, 90);
+        arrow.qto = Quaternion.Euler(45, 0, 90);
 
         isActive = false;
         rotation = 90;
@@ -126,8 +123,8 @@ public class CameraController : MonoBehaviour {
     public IEnumerator Rotate0()
     {
 
-        is180 = true;
-        is0 = false;
+        isRotating180 = true;
+        isRotating0 = false;
 
         player.rb.velocity = Vector3.zero;
         player.rb.angularVelocity = Vector3.zero;
@@ -135,7 +132,7 @@ public class CameraController : MonoBehaviour {
         player.isActive = false;
         player.qto = Quaternion.Euler(0, 0, 0);
 
-        arrow.qto = Quaternion.Euler(0, 0, 0);
+        arrow.qto = Quaternion.Euler(45, 0, 0);
 
         isActive = false;
 
@@ -150,8 +147,8 @@ public class CameraController : MonoBehaviour {
 
     public IEnumerator Rotate180()
     {
-        is0 = true;
-        is180 = false;
+        isRotating0 = true;
+        isRotating180 = false;
 
         player.rb.velocity = Vector3.zero;
         player.rb.angularVelocity = Vector3.zero;
@@ -159,7 +156,7 @@ public class CameraController : MonoBehaviour {
         player.isActive = false;
         player.qto = Quaternion.Euler(0, rotation, 180);
 
-        arrow.qto = Quaternion.Euler(0, 0, 180);
+        arrow.qto = Quaternion.Euler(45, 0, 180);
 
         isActive = false;
 
