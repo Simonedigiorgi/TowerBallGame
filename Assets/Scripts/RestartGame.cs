@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class RestartGame : MonoBehaviour {
 
-    public GameManager gameManager;                                                         // GAMEMANAGER
+    private GameManager gameManager;                                                        // GAMEMANAGER
     public Vector3 size;                                                                    // The Gizmo size
+
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     public void OnTriggerEnter(Collider other)
     {

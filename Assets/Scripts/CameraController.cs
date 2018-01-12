@@ -96,7 +96,7 @@ public class CameraController : MonoBehaviour {
 
         rotation = -90;
         qto = Quaternion.Euler(0, rotation, underRotation);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         isActive = true;
         player.isActive = true;
     }
@@ -115,7 +115,7 @@ public class CameraController : MonoBehaviour {
         isActive = false;
         rotation = 90;
         qto = Quaternion.Euler(0, rotation, underRotation);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         isActive = true;
         player.isActive = true;
     }
@@ -140,7 +140,7 @@ public class CameraController : MonoBehaviour {
         rotation = 0;
 
         qto = Quaternion.Euler(0, rotation, underRotation);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         isActive = true;
         player.isActive = true;
     }
@@ -162,7 +162,7 @@ public class CameraController : MonoBehaviour {
 
         rotation = 180;
         qto = Quaternion.Euler(0, rotation, underRotation);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         isActive = true;
         player.isActive = true;
     }

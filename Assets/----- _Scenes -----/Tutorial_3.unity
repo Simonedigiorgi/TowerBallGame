@@ -963,11 +963,6 @@ Prefab:
       propertyPath: cameraController
       value: 
       objectReference: {fileID: 919225765}
-    - target: {fileID: 114762839499297872, guid: 3317ee1200f942140a87918f3ed9b9bd,
-        type: 2}
-      propertyPath: isUnderworld
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3317ee1200f942140a87918f3ed9b9bd, type: 2}
   m_IsPrefabParent: 0
@@ -1056,45 +1051,50 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 114076895059702304, guid: 6b3b120f8bbec9641ac3254d57b2d455,
-        type: 2}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 710047479}
     - target: {fileID: 114438758677170676, guid: 6b3b120f8bbec9641ac3254d57b2d455,
         type: 2}
       propertyPath: player
       value: 
       objectReference: {fileID: 710047479}
-    - target: {fileID: 114573698947084680, guid: 6b3b120f8bbec9641ac3254d57b2d455,
+    - target: {fileID: 114076895059702304, guid: 6b3b120f8bbec9641ac3254d57b2d455,
         type: 2}
       propertyPath: player
       value: 
       objectReference: {fileID: 710047479}
     - target: {fileID: 114573698947084680, guid: 6b3b120f8bbec9641ac3254d57b2d455,
         type: 2}
-      propertyPath: gameManager
-      value: 
-      objectReference: {fileID: 712667648}
+      propertyPath: notWalkable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114573698947084680, guid: 6b3b120f8bbec9641ac3254d57b2d455,
         type: 2}
       propertyPath: platforms
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114573698947084680, guid: 6b3b120f8bbec9641ac3254d57b2d455,
+        type: 2}
+      propertyPath: rotation
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 23054503060147322, guid: 6b3b120f8bbec9641ac3254d57b2d455,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: cb82076813c3cee4fad421061aab3ca5, type: 2}
     - target: {fileID: 114573698947084680, guid: 6b3b120f8bbec9641ac3254d57b2d455,
         type: 2}
-      propertyPath: cameraController
-      value: 
-      objectReference: {fileID: 919225765}
+      propertyPath: qto.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114573698947084680, guid: 6b3b120f8bbec9641ac3254d57b2d455,
         type: 2}
-      propertyPath: cameraBackground
-      value: 
+      propertyPath: qto.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114573698947084680, guid: 6b3b120f8bbec9641ac3254d57b2d455,
+        type: 2}
+      propertyPath: Rotation0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114573698947084680, guid: 6b3b120f8bbec9641ac3254d57b2d455,
+        type: 2}
+      propertyPath: Rotation180
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6b3b120f8bbec9641ac3254d57b2d455, type: 2}
@@ -1197,6 +1197,10 @@ Prefab:
     - target: {fileID: 4275116393895478, guid: 345810909b08e9a4e95d3b153377355f, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1989044674434552, guid: 345810909b08e9a4e95d3b153377355f, type: 2}
+      propertyPath: m_TagString
+      value: CameraController
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 345810909b08e9a4e95d3b153377355f, type: 2}
@@ -1378,7 +1382,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4930919914415058, guid: 54778c94f49566049b6191be0515ff96, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.25
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4930919914415058, guid: 54778c94f49566049b6191be0515ff96, type: 2}
       propertyPath: m_LocalPosition.z

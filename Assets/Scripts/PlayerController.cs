@@ -1,35 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class PlayerController : MonoBehaviour {
-
-    public CameraController cameraController;
-    public Rotation head;                                                   // Richiama lo script Rotation dealla testa
-
-    public LayerMask groundLayers;
-
-    public float rotSpeed = 300f;                                           // Velocità di rotazione
-    public float rotation = 0f;                                             // Angolo della rotazione
-    [HideInInspector] public Quaternion qto = Quaternion.identity;
+   
+    [HideInInspector] public Quaternion qto = Quaternion.identity;            
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public SphereCollider col;
+    [HideInInspector] public LayerMask groundLayers;                          // Layer di Default (Togliere HideInIspector per selezionare un altro LayerMask)
 
-    public float speed = 1;
-    public int jump = 9;
+    [FoldoutGroup("Components")]
+    public CameraController cameraController;                                // CAMERACONTROLLER
+    private Rotation head;                                                   // Richiama lo script Rotation dealla testa
 
-    [Header("Debug")]
-    public bool isUnderworld;
-    public bool isActive;
-    public bool isJump;
+    [TabGroup("Player")]
+    public float speed = 1f, jump = 10f;                                     // Velocità // Salto
+
+    [TabGroup("Quaternion")]
+    public float rotSpeed = 300f, rotation = 0f;                            // Velocità di rotazione // Angolo della rotazione
+
+    [BoxGroup("Debug")]    
+    public bool isUnderworld, isActive, isJump;
 
 
     void Start () {
 
-        isJump = true;
         isActive = true;
         rb = GetComponent<Rigidbody>();
         col = GetComponent<SphereCollider>();
+        head = GetComponentInChildren<Rotation>();
 	}
 	
 	void Update () {

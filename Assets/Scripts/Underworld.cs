@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class Underworld : MonoBehaviour {
 
-    public PlayerController player;                                                         // PLAYER
+    private PlayerController player;                                                         // PLAYER
     public Vector3 size;                                                                    // The Gizmo size
 
     [HideInInspector] public bool isUp;                                                     // Sopra
     [HideInInspector] public bool isDown;                                                   // Sotto
+
+    private void Start()
+    {
+        player = FindObjectOfType<PlayerController>();
+    }
 
     public void OnTriggerEnter(Collider other)
     {

@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class Buttons : MonoBehaviour {
 
-    [Header("Components")]
-    public GameManager gameManager;                                                                 // GAMEMANAGER
+    private GameManager gameManager;                                                                 // GAMEMANAGER
 
     public enum PushButtons { None, End}
     public PushButtons button;
@@ -15,6 +15,7 @@ public class Buttons : MonoBehaviour {
     void Start () {
 
         transform.DetachChildren();
+        gameManager = FindObjectOfType<GameManager>();
     }
 	
 	void Update () {

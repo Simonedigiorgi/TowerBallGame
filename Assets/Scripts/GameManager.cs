@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
     public enum Level { None, Showcase, Tutorial1, Tutorial2, Tutorial3}
     public Level level;
 
-    private AudioSource source;
+    //private AudioSource source;
     public PlayerController player;
     public CameraController cameraController;
 
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
 
     void Start () {
 
-        source = GetComponent<AudioSource>();
+        //source = GetComponent<AudioSource>();
 
         if (level == Level.None)
         {

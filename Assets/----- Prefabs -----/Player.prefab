@@ -11,6 +11,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1674612707351792}
   m_IsPrefabParent: 1
+--- !u!1 &1182458324707022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4755223634136796}
+  m_Layer: 8
+  m_Name: Ancor Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1229069167364674
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,12 +85,26 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1674612707351792}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3, y: 0.5, z: 0.051}
+  m_LocalPosition: {x: -3.5, y: 0.5, z: -4.5}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4420934257630618}
+  - {fileID: 4755223634136796}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4755223634136796
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1182458324707022}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4685424864834436}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23238920003740018
 MeshRenderer:
@@ -122,7 +151,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: c90cc78d95d8a0c43902a98405afeeda, type: 2}
+  - {fileID: 2100000, guid: a1cbc09987dbea54f9b0d42cd689eeec, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -207,20 +236,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1848b0a3ebeaa54db9091b255f59d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 0
-  rotSpeed: 300
-  rotation: 0
   qto: {x: 0, y: 0, z: 0, w: 1}
   rb: {fileID: 0}
-  head: {fileID: 114012251130547190}
-  cameraController: {fileID: 0}
-  speed: 2
-  jump: 10
+  col: {fileID: 0}
   groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  col: {fileID: 0}
+  cameraController: {fileID: 0}
+  speed: 2.5
+  jump: 10
+  rotSpeed: 300
+  rotation: 0
   isUnderworld: 0
+  isActive: 0
+  isJump: 1
 --- !u!135 &135843755889166598
 SphereCollider:
   m_ObjectHideFlags: 1
