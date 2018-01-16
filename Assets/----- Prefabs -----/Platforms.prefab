@@ -25,9 +25,10 @@ GameObject:
   - component: {fileID: 65688361156068332}
   - component: {fileID: 114573698947084680}
   - component: {fileID: 82182997144346340}
+  - component: {fileID: 114501117341341236}
   m_Layer: 0
   m_Name: Platforms
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +61,7 @@ GameObject:
   m_Layer: 0
   m_Name: Target_1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1577725955494882426, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -92,7 +93,7 @@ GameObject:
   m_Layer: 0
   m_Name: Target_0
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -2349822300998112484, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -118,7 +119,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1367745894688378}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4435120533936192}
@@ -144,7 +145,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1980557662757152}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2, y: 0, z: -4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4870182157441766}
@@ -207,7 +208,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: cb82076813c3cee4fad421061aab3ca5, type: 2}
+  - {fileID: 2100000, guid: d473d32ef1f432b4db80b1271120d627, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -372,7 +373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9758d339333671c468324c7199e3062c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   size: {x: 2, y: 0.2, z: 1}
   isUp: 0
   isDown: 1
@@ -387,10 +387,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9758d339333671c468324c7199e3062c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   size: {x: 2, y: 0.2, z: 1}
   isUp: 1
   isDown: 0
+--- !u!114 &114501117341341236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1184511012429092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef37e102e6b5dbc40a53d151f7117620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldMaterial: {r: 0.40784317, g: 0.35686275, b: 0.49411768, a: 0}
+  underworldMaterial: {r: 0.46666667, g: 0.46666667, b: 0.46666667, a: 1}
+  lerpDuration: 0.8
+  isLerpActive: 1
 --- !u!114 &114573698947084680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -402,7 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8defe03aacaad0409b793b427a0be05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platforms: 3
+  platforms: 1
   speed: 10
   targets:
   - {fileID: 4960083074883596}
@@ -417,4 +431,5 @@ MonoBehaviour:
   notWalkable: 0
   triggerUp: {fileID: 1256053914505944}
   triggerDown: {fileID: 1501712969787436}
+  isTimeScale: 0
   bass: {fileID: 8300000, guid: 783e3dd8c0e0a92448737f0d6a6063ba, type: 3}

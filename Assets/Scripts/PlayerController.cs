@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 
 public class PlayerController : MonoBehaviour {
@@ -10,8 +11,7 @@ public class PlayerController : MonoBehaviour {
     [HideInInspector] public SphereCollider col;
     [HideInInspector] public LayerMask groundLayers;                          // Layer di Default (Togliere HideInIspector per selezionare un altro LayerMask)
 
-    [FoldoutGroup("Components")]
-    public CameraController cameraController;                                // CAMERACONTROLLER
+    private CameraController cameraController;                               // CAMERACONTROLLER
     private Rotation head;                                                   // Richiama lo script Rotation dealla testa
 
     [TabGroup("Player")]
@@ -20,136 +20,381 @@ public class PlayerController : MonoBehaviour {
     [TabGroup("Quaternion")]
     public float rotSpeed = 300f, rotation = 0f;                            // Velocità di rotazione // Angolo della rotazione
 
-    [BoxGroup("Debug")]    
-    public bool isUnderworld, isActive, isJump;
+    [FoldoutGroup("Lerp Colors")] public Color worldSkin, underworldSkin;
+    [FoldoutGroup("Lerp Colors")] public float lerpDuration;
+    [FoldoutGroup("Lerp Colors")] public bool isLerpActive;
 
+    private float startTime;
+    
+    [FoldoutGroup("Debug")] [ToggleLeft] public bool isActive, isUnderworld, isJump, isVericalMovements, isHorizontalMovements, onGround;
 
     void Start () {
+
+        onGround = true;
+
+        startTime = Time.time;
 
         isActive = true;
         rb = GetComponent<Rigidbody>();
         col = GetComponent<SphereCollider>();
         head = GetComponentInChildren<Rotation>();
-	}
+        cameraController = FindObjectOfType<CameraController>();
+
+
+
+    }
 	
 	void Update () {
 
         head.qto = Quaternion.Euler(0, head.rotation, 0);
 
-        // RUOTA A 90
+        #region MATERIAL LERP
 
-        if (cameraController.rotation == 90 && isActive == true)
-        {
-            if (Input.GetKey(KeyCode.A))
-            {
-                head.rotation = 90;
-                transform.Translate(0, 0, speed * Time.deltaTime);
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            { 
-                head.rotation = -90;
-                transform.Translate(0, 0, -speed * Time.deltaTime);
-            }
-        }
-
-        // RUOTA A -90
-
-        if(cameraController.rotation == -90 && isActive == true)
-        {
-            if (Input.GetKey(KeyCode.A))
-            {
-                head.rotation = -90;
-                transform.Translate(0, 0, -speed * Time.deltaTime);
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                head.rotation = 90;
-                transform.Translate(0, 0, speed * Time.deltaTime);
-            }
-
-        }
-
-        // RUOTA A 0
-
-        if(cameraController.rotation == 0 && isActive == true)
-        {
-
-            if(isUnderworld == true)
-            {
-                if (Input.GetKey(KeyCode.A))
-                {
-                    head.rotation = -90;
-                    transform.Translate(speed * Time.deltaTime, 0, 0);
-                }
-
-                if (Input.GetKey(KeyCode.D))
-                {
-                    head.rotation = 90;
-                    transform.Translate(-speed * Time.deltaTime, 0, 0);
-                }
-            }
-
-            if (isUnderworld == false)
-            {
-                if (Input.GetKey(KeyCode.A))
-                {
-                    head.rotation = -90;
-                    transform.Translate(-speed * Time.deltaTime, 0, 0);
-                }
-
-                if (Input.GetKey(KeyCode.D))
-                {
-                    head.rotation = 90;
-                    transform.Translate(speed * Time.deltaTime, 0, 0);
-                }
-            }
-        }
-
-        // RUOTA A 180
-
-        if (cameraController.rotation == 180 && isActive == true)
+        if (isLerpActive == true)
         {
             if (isUnderworld == true)
             {
-                if (Input.GetKey(KeyCode.A))
+                transform.GetChild(0).GetComponent<Renderer>().material.DOColor(underworldSkin, lerpDuration);
+            }
+            else if (isUnderworld == false)
+            {
+                transform.GetChild(0).GetComponent<Renderer>().material.DOColor(worldSkin, lerpDuration);
+            }
+        }
+        #endregion
+
+        #region ROTAZIONE -90
+
+        if (cameraController.rotation == 90 && isActive == true)
+        {
+            if (isUnderworld == true)
+            {
+                if (Input.GetKey(KeyCode.W) && isVericalMovements == true)
                 {
+                    isHorizontalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                }
+                else if (Input.GetKey(KeyCode.S) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
                     head.rotation = 90;
                     transform.Translate(-speed * Time.deltaTime, 0, 0);
                 }
-
-                if (Input.GetKey(KeyCode.D))
+                else
                 {
+                    isHorizontalMovements = true;
+                }
+
+                if (Input.GetKey(KeyCode.A) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
                     head.rotation = -90;
-                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                    transform.Translate(0, 0, speed * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.D) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(0, 0, -speed * Time.deltaTime);
+                }
+                else
+                {
+                    isVericalMovements = true;
                 }
             }
 
             if (isUnderworld == false)
             {
-                if (Input.GetKey(KeyCode.A))
+                if (Input.GetKey(KeyCode.W) && isVericalMovements == true)
                 {
+                    isHorizontalMovements = false;
                     head.rotation = 90;
                     transform.Translate(speed * Time.deltaTime, 0, 0);
                 }
-
-                if (Input.GetKey(KeyCode.D))
+                else if (Input.GetKey(KeyCode.S) && isVericalMovements == true)
                 {
+                    isHorizontalMovements = false;
                     head.rotation = -90;
                     transform.Translate(-speed * Time.deltaTime, 0, 0);
+                }
+                else
+                {
+                    isHorizontalMovements = true;
+                }
+
+                if (Input.GetKey(KeyCode.A) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(0, 0, speed * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.D) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(0, 0, -speed * Time.deltaTime);
+                }
+                else
+                {
+                    isVericalMovements = true;
                 }
             }
 
         }
+        #endregion
 
-        // UNDERWORLD AND JUMP
+        #region ROTAZIONE -90
 
+        if(cameraController.rotation == -90 && isActive == true)
+        {
+            if (isUnderworld == true)
+            {
+                if (Input.GetKey(KeyCode.W) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(-speed * Time.deltaTime, 0, 0);
+                }
+                else if (Input.GetKey(KeyCode.S) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                }
+                else
+                {
+                    isHorizontalMovements = true;
+                }
+
+                if (Input.GetKey(KeyCode.A) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(0, 0, -speed * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.D) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(0, 0, speed * Time.deltaTime);
+                }
+                else
+                {
+                    isVericalMovements = true;
+                }
+            }
+
+            if (isUnderworld == false)
+            {
+                if (Input.GetKey(KeyCode.W) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(-speed * Time.deltaTime, 0, 0);
+                }
+                else if (Input.GetKey(KeyCode.S) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                }
+                else
+                {
+                    isHorizontalMovements = true;
+                }
+
+                if (Input.GetKey(KeyCode.A) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(0, 0, -speed * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.D) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(0, 0, speed * Time.deltaTime);
+                }
+                else
+                {
+                    isVericalMovements = true;
+                }
+            }
+
+        }
+        #endregion
+
+        #region ROTAZIONE 0
+
+        if (cameraController.rotation == -45 && isActive == true)
+        {
+
+            if (isUnderworld == true)
+            {
+                if (Input.GetKey(KeyCode.W) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 180;
+                    transform.Translate(0, 0, -speed * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.S) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 0;
+                    transform.Translate(0, 0, speed * Time.deltaTime);
+                }
+                else
+                {
+                    isHorizontalMovements = true;
+                }
+
+                if (Input.GetKey(KeyCode.A) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                }
+                else if (Input.GetKey(KeyCode.D) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(-speed * Time.deltaTime, 0, 0);
+                }
+                else
+                {
+                    isVericalMovements = true;
+                }
+            }
+
+            if (isUnderworld == false)
+            {
+                if (Input.GetKey(KeyCode.W) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 0;
+                    transform.Translate(0, 0, speed * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.S) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 180;
+                    transform.Translate(0, 0, -speed * Time.deltaTime);
+                }
+                else
+                {
+                    isHorizontalMovements = true;
+                }
+
+                if (Input.GetKey(KeyCode.A) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(-speed * Time.deltaTime, 0, 0);
+                }
+                else if (Input.GetKey(KeyCode.D) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                }
+                else
+                {
+                    isVericalMovements = true;
+                }
+            }
+        }
+        #endregion
+
+        #region ROTAZIONE 180
+
+        if (cameraController.rotation == 135 && isActive == true)
+        {
+
+            if (isUnderworld == true)
+            {
+                if (Input.GetKey(KeyCode.W) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 0;
+                    transform.Translate(0, 0, speed * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.S) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 180;
+                    transform.Translate(0, 0, -speed * Time.deltaTime);
+                }
+                else
+                {
+                    isHorizontalMovements = true;
+                }
+
+                if (Input.GetKey(KeyCode.A) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(-speed * Time.deltaTime, 0, 0);
+                }
+                else if (Input.GetKey(KeyCode.D) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                }
+                else
+                {
+                    isVericalMovements = true;
+                }
+            }
+
+            if (isUnderworld == false)
+            {
+                if (Input.GetKey(KeyCode.W) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 180;
+                    transform.Translate(0, 0, -speed * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.S) && isVericalMovements == true)
+                {
+                    isHorizontalMovements = false;
+                    head.rotation = 0;
+                    transform.Translate(0, 0, speed * Time.deltaTime);
+                }
+                else
+                {
+                    isHorizontalMovements = true;
+                }
+
+                if (Input.GetKey(KeyCode.A) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = 90;
+                    transform.Translate(speed * Time.deltaTime, 0, 0);
+                }
+                else if (Input.GetKey(KeyCode.D) && isHorizontalMovements == true)
+                {
+                    isVericalMovements = false;
+                    head.rotation = -90;
+                    transform.Translate(-speed * Time.deltaTime, 0, 0);
+                }
+                else
+                {
+                    isVericalMovements = true;
+                }
+            }
+
+        }
+        #endregion
+
+        #region JUMP
         if (isUnderworld == true)
         {
-            if (UnderGrounded() && Input.GetKeyDown(KeyCode.Space) && isJump == true)
+            if (onGround && Input.GetKeyDown(KeyCode.Space) && isJump == true)
             {
                 rb.AddForce(Vector3.down * jump, ForceMode.Impulse);
+                onGround = false;
             }
 
             Physics.gravity = new Vector3(0, 9.81f, 0);
@@ -157,26 +402,24 @@ public class PlayerController : MonoBehaviour {
 
         else if (isUnderworld == false)
         {
-            if (IsGrounded() && Input.GetKeyDown(KeyCode.Space) && isJump == true)
+            if (onGround && Input.GetKeyDown(KeyCode.Space) && isJump == true)
             {
                 rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
+                onGround = false;
             }
 
             Physics.gravity = new Vector3(0, -9.81f, 0);
         }
+        #endregion
 
         head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, head.qto, head.rotSpeed * Time.deltaTime);
-
-
     }
 
-    private bool IsGrounded()
+    private void OnCollisionEnter(Collision collision)
     {
-        return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x, col.bounds.min.y, col.bounds.center.z), col.radius * .1f, groundLayers);
-    }
-
-    private bool UnderGrounded()
-    {
-        return Physics.CheckCapsule(col.bounds.center, new Vector3(col.bounds.center.x, col.bounds.max.y, col.bounds.center.z), col.radius * .1f, groundLayers);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            onGround = true;
+        }
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Underworld : MonoBehaviour {
 
-    private PlayerController player;                                                         // PLAYER
-    public Vector3 size;                                                                    // The Gizmo size
+    private PlayerController player;                                                        // PLAYER
+    public Vector3 size;                                                                    // The Gizmo size  
 
     [HideInInspector] public bool isUp;                                                     // Sopra
     [HideInInspector] public bool isDown;                                                   // Sotto
@@ -18,7 +18,7 @@ public class Underworld : MonoBehaviour {
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player" && isUp)
-        {
+        {          
             player.isUnderworld = false;
         }
 

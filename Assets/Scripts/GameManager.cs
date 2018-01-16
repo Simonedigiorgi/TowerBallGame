@@ -76,9 +76,19 @@ public class GameManager : MonoBehaviour {
 	
 	void Update () {
 
-        timerText.text = "Timer:    " + timer;
-        rotationText.text = "Rotations:    " + rotationCount;
-        changeText.text = "Change:    " + changes;    
+        if(player.isUnderworld == true)
+        {
+            timerText.text = "timer.text = Timer: + timer";
+            rotationText.text = "rotation.text = Rotations: + rotations";
+            changeText.text = "change.text = Change: + change";
+        }
+        else if(player.isUnderworld == false)
+        {
+            timerText.text = "Timer:    " + timer;
+            rotationText.text = "Rotations:    " + rotationCount;
+            changeText.text = "Change:    " + changes;
+        }
+  
 
     }
 
