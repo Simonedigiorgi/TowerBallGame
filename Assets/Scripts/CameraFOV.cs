@@ -5,12 +5,11 @@ using Sirenix.OdinInspector;
 
 public class CameraFOV : MonoBehaviour {
 
-    private CameraBackground cameraBackground;                                             // CAMERA CONTROLLER
+    private CameraBackground cameraBackground;                                             // CAMERA BACKGROUND
 
-    [BoxGroup("Dimensione del Gizmo")]
-    public Vector3 size;                                                                   // The Gizmo size
-    [BoxGroup("Comandi della Telecamera")]
-    public float FOV, speed;                                                               // Field of View, Velocità della Camera
+    [BoxGroup("Dimensione del Gizmo")] public Vector3 size;                                // The Gizmo size
+
+    [BoxGroup("Comandi della Telecamera")] public float FOV, speed;                        // Field of View, Velocità della Camera
 
     void Start () {
         cameraBackground = FindObjectOfType<CameraBackground>();

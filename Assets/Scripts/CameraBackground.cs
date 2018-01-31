@@ -6,25 +6,15 @@ using Sirenix.OdinInspector;
 
 public class CameraBackground : MonoBehaviour {
 
-    private PlayerController player;                                            // PLAYER CONTROLLER
-    private Light directionalLight;                                             // Luce Direzionale (Child(0))
+    private PlayerController player;                                                                    // PLAYER CONTROLLER
+    private Light directionalLight;                                                                     // Luce Direzionale (Child(0))
 
-    [BoxGroup("Sfondo e luce del Sopramondo")]
-    public Color worldColor, worldLight;                                        // Colori della luce e dello sfondo nel Sopramondo
+    [BoxGroup("Sfondo e luce del Sopramondo")] public Color worldColor, worldLight;                     // Colori della luce e dello sfondo nel Sopramondo
+    [BoxGroup("Sfondo e luce del Sottomondo")] public Color underworldColor, underworldLight;           // Colori della luce e dello sfondo nel Sottomondo
 
-    [BoxGroup("Sfondo e luce del Sottomondo")]
-    public Color underworldColor, underworldLight;                              // Colori della luce e dello sfondo nel Sottomondo
+    [BoxGroup("Camera Field of View")] public float TargetFOV, SpeedFOV;                                // Distanza e velocita della Field of View
 
-    [FoldoutGroup("Colore dei testi")] public Text rotationText;                // Testo della rotazione
-    [FoldoutGroup("Colore dei testi")] public Text currentLevel;                // Testo del livello corrente
-    [FoldoutGroup("Colore dei testi")] public Text description;                 // Testo della descrizione
-    [FoldoutGroup("Colore dei testi")] public Text timerText;                   // Testo del timer
-    [FoldoutGroup("Colore dei testi")] public Text changeText;                  // Testo del cambio prospettiva
-
-    [FoldoutGroup("Colore dei testi")] public Color textColor;                  // Colore del Testo
-
-    [BoxGroup("Camera Field of View")]
-    public float TargetFOV, SpeedFOV;                                           // Distanza e velocita della Field of View
+    [FoldoutGroup("Colore dei testi")] public Text[] textArray;                                         // Array dei Testi HUD
 
     void Start () {
 
@@ -46,14 +36,12 @@ public class CameraBackground : MonoBehaviour {
             directionalLight.color = Color.Lerp(directionalLight.color, underworldLight, 4f * Time.deltaTime);
             GetComponent<Camera>().backgroundColor = Color.Lerp(GetComponent<Camera>().backgroundColor, underworldColor, 4f * Time.deltaTime);
 
-            // TESTI
+            // COLORE DEI TESTI
 
-            rotationText.color = Color.white;
-            currentLevel.color = Color.white;
-            description.color = Color.white;
-            timerText.color = Color.white;
-            changeText.color = Color.white;
-
+            foreach(Text text in textArray)
+            {
+                text.color = Color.white;
+            }
         }
 
         else if (player.isUnderworld == false)
@@ -61,13 +49,12 @@ public class CameraBackground : MonoBehaviour {
             directionalLight.color = Color.Lerp(directionalLight.color, worldLight, 4f * Time.deltaTime);
             GetComponent<Camera>().backgroundColor = Color.Lerp(GetComponent<Camera>().backgroundColor, worldColor, 4f * Time.deltaTime);
 
-            // TESTI
+            // COLORE DEI TESTI
 
-            rotationText.color = Color.black;
-            currentLevel.color = Color.black;
-            description.color = Color.black;
-            timerText.color = Color.black;
-            changeText.color = Color.black;
+            foreach (Text text in textArray)
+            {
+                text.color = Color.black;
+            }
         }
 	}
 }
